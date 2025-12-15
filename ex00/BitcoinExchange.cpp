@@ -12,7 +12,3 @@ BitcoinExchange& BitcoinExchange::operator=(const BitcoinExchange &other) {
 	(void)other;
     return *this;
 }
-
-void BitcoinExchange::outputBitcionExchange(std::string fileName) {
-	
-}

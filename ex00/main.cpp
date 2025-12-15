@@ -11,6 +11,7 @@ int main(int ac, char *av[]) {
 
 	BitcoinExchange bt;
 
+	set
 	std::ifstream file(av[1]);
 	if (!file) {
 		std::cerr << ERR_OPENFILE << std::endl;
