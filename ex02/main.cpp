@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <iostream>
 #include <vector>
+#include <limits>
+#include <cerrno>
 
 #include "PmergeMe.hpp"
 
@@ -41,13 +43,23 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    // generate unsorted number vector
     std::vector<int> numbers;
     for (int i = 1; i < argc; ++i) {
         try {
             if (invalidArgument(argv[i])) {
                 throw std::invalid_argument("Invalid argument");
             }
-            int num = std::stoi(argv[i]);
+            char *end;
+            errno = 0;
+            long v = std::strtol(argv[i], &end, 10);
+            if (*end != '\0' || end == argv[i]) {
+                throw std::invalid_argument("Invalid argument");
+            }
+            if (errno == ERANGE || v < std::numeric_limits<int>::min() || v > std::numeric_limits<int>::max()) {
+                throw std::out_of_range("Overflow occurred.");
+            }
+            int num = static_cast<int>(v);
             if (num < 0) {
                 throw std::invalid_argument("Negative numbers are not allowed");
             }

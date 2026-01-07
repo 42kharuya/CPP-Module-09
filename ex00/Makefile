@@ -8,14 +8,14 @@ SRCS			=	main.cpp BitcoinExchange.cpp
 OBJS_PATH		=	objs/
 OBJS			=	$(SRCS:%.cpp=objs/%.o)
 
+all:	$(NAME)
+
 $(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $@
 
 $(OBJS_PATH)%.o:	%.cpp
 	@mkdir -p $(OBJS_PATH)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-all:	$(NAME)
 
 va:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)

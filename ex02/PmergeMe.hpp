@@ -41,44 +41,6 @@ private:
     void _binaryInsertOptimized(
         std::deque<IndexedInt> &deq, const IndexedInt &value, int maxPos);
     std::deque<size_t> _generateJacobsthalSequenceDeque(size_t n);
-
-    // For debugging
-    int _countVectorCompare();
-    int _countDequeCompare();
-    void _printCompare(int a, int b, const std::string &type);
-    template <typename IndexedIntContainer>
-    void _printMainChain(
-        const IndexedIntContainer &container, const std::string &type)
-    {
-#ifdef DEBUG
-        std::cout << type << "MainChain: ";
-        for (size_t i = 0; i < container.size(); ++i)
-        {
-            std::cout << container[i].first << " ";
-        }
-        std::cout << std::endl;
-#else
-        (void)container;
-        (void)type;
-#endif
-    };
-
-    template <typename PendingContainer>
-    void _printPending(
-        const PendingContainer &pending, const std::string &type)
-    {
-#ifdef DEBUG
-        std::cout << type << "Pending: ";
-        for (size_t i = 0; i < pending.size(); ++i)
-        {
-            std::cout << pending[i].first.first << " ";
-        }
-        std::cout << std::endl;
-#else
-        (void)pending;
-        (void)type;
-#endif
-    };
 };
 
 #endif /* _PMERGEME_H_ */

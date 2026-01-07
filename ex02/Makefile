@@ -8,14 +8,14 @@ SRCS			=	main.cpp PmergeMe.cpp
 OBJS_PATH		=	objs/
 OBJS			=	$(SRCS:%.cpp=objs/%.o)
 
+all:	$(NAME)
+
 $(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $@
 
 $(OBJS_PATH)%.o:	%.cpp
 	@mkdir -p $(OBJS_PATH)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-all:	$(NAME)
 
 va:
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
@@ -23,10 +23,9 @@ va:
 clean:
 	$(RM) -r $(OBJS_PATH)
 
-fclean:
-	$(RM) -r $(OBJS_PATH)
+fclean:	clean
 	$(RM) $(NAME)
 
-re:		fclean all
+re:	fclean all
 
 .PHONY:	all clean fclean re va

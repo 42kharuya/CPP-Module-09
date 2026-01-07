@@ -93,7 +93,6 @@ std::vector<PmergeMe::IndexedInt> PmergeMe::_mergeInsertSortVector(
     std::vector<std::pair<IndexedInt, IndexedInt> > comparedPairs;
     for (size_t i = 0; i < n - 1; i += 2) {
         IndexedInt larger, smaller;
-        _printCompare(indexedVec[i].first, indexedVec[i + 1].first, "Vector ");
         if (indexedVec[i].first > indexedVec[i + 1].first) {
             larger = indexedVec[i];
             smaller = indexedVec[i + 1];
@@ -136,13 +135,11 @@ std::vector<PmergeMe::IndexedInt> PmergeMe::_mergeInsertSortVector(
             std::pair<IndexedInt, size_t>(comparedPairs[pairIdx].first,
                 comparedPairs[pairIdx].second.second));
     }
-    _printMainChain(mainChain, "Vector ");
 
     if (hasOddElement) {
         pending.push_back(
             std::pair<IndexedInt, size_t>(oddElement, oddElement.second));
     }
-    _printPending(pending, "Vector ");
 
     // Step 4: Insert smaller elements using Ford-Johnson order
     if (pending.size() > 0) {
@@ -156,7 +153,6 @@ void PmergeMe::_insertWithJacobsthalOrder(std::vector<IndexedInt> &mainChain,
     std::vector<std::pair<IndexedInt, size_t> > const &pending) {
     // pending[0] is inserted first (unconditionally at the front)
     mainChain.insert(mainChain.begin(), pending[0].first);
-    _printMainChain(mainChain, "Vector ");
     if (pending.size() <= 1)
         return;
 
@@ -185,7 +181,6 @@ void PmergeMe::_insertWithJacobsthalOrder(std::vector<IndexedInt> &mainChain,
                     }
                 }
                 _binaryInsertOptimized(mainChain, pending[j].first, maxPos);
-                _printMainChain(mainChain, "Vector ");
                 inserted[j] = true;
             }
         }
@@ -220,7 +215,6 @@ void PmergeMe::_binaryInsertOptimized(
         } else {
             right = mid - 1;
         }
-        _printCompare(vec[mid].first, value.first, "Vector ");
     }
     vec.insert(vec.begin() + left, value);
 }
@@ -266,7 +260,6 @@ std::deque<PmergeMe::IndexedInt> PmergeMe::_mergeInsertSortDeque(
     std::deque<std::pair<IndexedInt, IndexedInt> > comparedPairs;
     for (size_t i = 0; i < n - 1; i += 2) {
         IndexedInt larger, smaller;
-        _printCompare(indexedVec[i].first, indexedVec[i + 1].first, "Deque ");
         if (indexedVec[i].first > indexedVec[i + 1].first) {
             larger = indexedVec[i];
             smaller = indexedVec[i + 1];
@@ -307,13 +300,11 @@ std::deque<PmergeMe::IndexedInt> PmergeMe::_mergeInsertSortDeque(
             std::pair<IndexedInt, size_t>(comparedPairs[pairIdx].first,
                 comparedPairs[pairIdx].second.second));
     }
-    _printMainChain(mainChain, "Vector ");
 
     if (hasOddElement) {
         pending.push_back(
             std::pair<IndexedInt, size_t>(oddElement, oddElement.second));
     }
-    _printPending(pending, "Vector ");
 
     // Step 4: Insert smaller elements using Ford-Johnson order
     if (pending.size() > 0) {
@@ -327,7 +318,6 @@ void PmergeMe::_insertWithJacobsthalOrder(std::deque<IndexedInt> &mainChain,
     std::deque<std::pair<IndexedInt, size_t> > const &pending) {
     // pending[0] is inserted first (unconditionally at the front)
     mainChain.insert(mainChain.begin(), pending[0].first);
-    _printMainChain(mainChain, "Deque ");
     if (pending.size() <= 1)
         return;
 
@@ -357,7 +347,6 @@ void PmergeMe::_insertWithJacobsthalOrder(std::deque<IndexedInt> &mainChain,
                     }
                 }
                 _binaryInsertOptimized(mainChain, pending[j].first, maxPos);
-                _printMainChain(mainChain, "Deque ");
                 inserted[j] = true;
             }
         }
@@ -392,7 +381,6 @@ void PmergeMe::_binaryInsertOptimized(
         } else {
             right = mid - 1;
         }
-        _printCompare(vec[mid].first, value.first, "Deque ");
     }
     vec.insert(vec.begin() + left, value);
 }
@@ -418,31 +406,4 @@ std::deque<size_t> PmergeMe::_generateJacobsthalSequenceDeque(size_t n) {
         i++;
     }
     return jacobsthal_sequence;
-}
-
-// ----------------------------------------------------------------
-// helper functions
-
-int PmergeMe::_countVectorCompare() {
-    static int v_count = 0;
-    return v_count++;
-}
-
-int PmergeMe::_countDequeCompare() {
-    static int d_count = 0;
-    return d_count++;
-}
-
-void PmergeMe::_printCompare(int a, int b, const std::string &type) {
-#ifdef DEBUG
-    std::cout << type << "Compare: (" << a << ", " << b << ")\n";
-    if (type == "Vector ")
-        _countVectorCompare();
-    else if (type == "Deque ")
-        _countDequeCompare();
-        #else
-        (void)a;
-        (void)b;
-        (void)type;
-#endif
 }

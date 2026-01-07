@@ -8,29 +8,17 @@ SRCS			=	main.cpp RPN.cpp
 OBJS_PATH		=	objs/
 OBJS			=	$(SRCS:%.cpp=objs/%.o)
 
-ISDEBUG = 0
-ARGS ?=
-
-ifeq ($(ISDEBUG), 1)
-	CXX +=  -g -fsanitize=address,undefined
-	CXXFLAGS += -DDEBUG
-endif
-
 all:	$(NAME)
 
-$(NAME):	$(OBJS)
+$(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $@
 
 $(OBJS_PATH)%.o:	%.cpp
 	@mkdir -p $(OBJS_PATH)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-debug:
-	make fclean
-	make ISDEBUG=1 all
-
 va:
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) $(ARGS)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
 
 clean:
 	$(RM) -r $(OBJS_PATH)
@@ -40,4 +28,4 @@ fclean:	clean
 
 re:	fclean all
 
-.PHONY:	all clean fclean re debug va
+.PHONY:	all clean fclean re va

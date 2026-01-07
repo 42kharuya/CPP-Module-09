@@ -132,9 +132,10 @@ int BitcoinExchange::_toNumberInt(const std::string &numberStr) const {
 bool BitcoinExchange::_isExistedDate(
     const int year, const int month, const int day) const {
     // Check for valid date considering leap years
-    if (year < 0 || month < 1 || month > 12 || day < 1 || day > 31) {
+    if (year < 2009 || year > 9999 || month < 1 || month > 12 || day < 1 || day > 31) {
         return false;
     }
+
     static const int daysInMonth[] = {
         31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     int maxDay = daysInMonth[month - 1];
